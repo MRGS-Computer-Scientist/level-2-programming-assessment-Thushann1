@@ -1,3 +1,5 @@
-from App import *
+from App import ExpenseTracker
 
-app = App()
+if __name__ == "__main__":
+    app = ExpenseTracker()
+    app.mainloop()
