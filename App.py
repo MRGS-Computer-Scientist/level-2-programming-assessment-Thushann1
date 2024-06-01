@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 from app_settings import bg_color, bg_color1, w_width, w_height
+from tkinter import messagebox
 
 class ExpenseTracker(tk.Tk):
     def __init__(self):
@@ -71,6 +72,17 @@ class ExpenseTracker(tk.Tk):
         # Show Chart button
         self.show_chart_button = tk.Button(self, text="Show Chart", width=20, bg=bg_color1, fg=bg_color)
         self.show_chart_button.place(x=500, y=450)
+        # Exit button
+        self.exit_button = tk.Button(self, text="Exit", width=20, bg=bg_color1, fg=bg_color, command=self.exit)
+        self.exit_button.place(x=500, y=500)
+
+        # Asks confirmation from user before exiting/destroying the app
+    def exit(self):
+        confirm_exit = messagebox.askquestion("askquestion", "Are you sure?")
+        if confirm_exit == 'yes':
+            self.window.destroy()
+
+        
 
 if __name__ == "__main__":
     app = ExpenseTracker()
