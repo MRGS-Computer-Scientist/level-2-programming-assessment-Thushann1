@@ -22,7 +22,7 @@ class ExpenseTracker(tk.Tk):
         self.item_description_entry.place(x=200, y=100)
         
         # Date
-        self.date_label = tk.Label(self, text="Date:", bg=bg_color, fg=bg_color1)
+        self.date_label = tk.Label(self, text="Date:(YYYY/MM/DD)", bg=bg_color, fg=bg_color1)
         self.date_label.place(x=50, y=150)
         self.date_entry = tk.Entry(self, width=30)
         self.date_entry.place(x=200, y=150)
