@@ -5,14 +5,18 @@ from tkinter import messagebox
 
 class ExpenseTracker(tk.Tk):
 
-    current_frame = "Home"
-
     def __init__(self):
         super().__init__()
         
         self.title("ExTra - Expense Tracker")
         self.geometry(f"{w_width}x{w_height}")
         self.configure(bg=bg_color)
+        
+        current_frame = "Home"
+        
+        self.home_frame = tk.Frame(background=bg_color, width=w_width, height=(w_height-200))
+        self.home_frame.place()
+
         # Expense amount
         self.expense_amount_label = tk.Label(self, text="Expense amount:", bg=bg_color, fg=bg_color1)
         self.expense_amount_label.place(x=50, y=50)
