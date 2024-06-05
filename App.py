@@ -4,6 +4,9 @@ from app_settings import bg_color, bg_color1, w_width, w_height
 from tkinter import messagebox
 
 class ExpenseTracker(tk.Tk):
+
+    current_frame = "Home"
+
     def __init__(self):
         super().__init__()
         
@@ -70,7 +73,7 @@ class ExpenseTracker(tk.Tk):
         self.save_expense_button.place(x=500, y=400)
         
         # Show Chart button
-        self.show_chart_button = tk.Button(self, text="Show Chart", width=20, bg=bg_color1, fg=bg_color)
+        self.show_chart_button = tk.Button(self, text="Show Chart", width=20, bg=bg_color1, fg=bg_color, command=lambda: self.go_to_frame("ChartPage"))
         self.show_chart_button.place(x=500, y=450)
         # Exit button
         self.exit_button = tk.Button(self, text="Exit", width=20, bg=bg_color1, fg=bg_color, command=self.exit)
@@ -80,9 +83,22 @@ class ExpenseTracker(tk.Tk):
     def exit(self):
         confirm_exit = messagebox.askquestion("askquestion", "Are you sure?")
         if confirm_exit == 'yes':
-            self.window.destroy()
+            self.destroy()
 
-        
+    def go_to_frame(self, next_frame):
+
+        if self.current_frame == "Home":
+                self.Home_frame.place_forget()
+        elif self.current_frame == "chart":
+                self.chart_frame.place_forget()
+
+
+        if next_frame == "chart":
+                self.chart_frame.place()
+                self.current_frame = "chart"
+        elif next_frame == "Home":
+                self.home_frame.place()
+                self.current_frame = "Home"
 
 if __name__ == "__main__":
     app = ExpenseTracker()
