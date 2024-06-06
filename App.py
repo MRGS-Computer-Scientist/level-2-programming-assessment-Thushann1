@@ -12,10 +12,14 @@ class ExpenseTracker(tk.Tk):
         self.geometry(f"{w_width}x{w_height}")
         self.configure(bg=bg_color)
         
-        current_frame = "Home"
+        self.current_frame = "Home"
         
-        self.home_frame = tk.Frame(background=bg_color, width=w_width, height=(w_height-200))
-        self.home_frame.place()
+        # Frames
+        self.expenses = []
+
+        # Home Frame
+        self.home_frame = tk.Frame(self, background=bg_color, width=w_width, height=(w_height-200))
+        self.home_frame.place(x=0, y=0)
 
         # Expense amount
         self.expense_amount_label = tk.Label(self, text="Expense amount:", bg=bg_color, fg=bg_color1)
@@ -77,11 +81,15 @@ class ExpenseTracker(tk.Tk):
         self.save_expense_button.place(x=500, y=400)
         
         # Show Chart button
-        self.show_chart_button = tk.Button(self, text="Show Chart", width=20, bg=bg_color1, fg=bg_color, command=lambda: self.go_to_frame("ChartPage"))
+        self.show_chart_button = tk.Button(self, text="Show Chart", width=20, bg=bg_color1, fg=bg_color, command=lambda: self.go_to_frame("Chart"))
         self.show_chart_button.place(x=500, y=450)
+
         # Exit button
         self.exit_button = tk.Button(self, text="Exit", width=20, bg=bg_color1, fg=bg_color, command=self.exit)
         self.exit_button.place(x=500, y=500)
+
+        # Chart Frame
+        self.chart_frame = tk.Frame(self, background=bg_color, width=w_width, height=(w_height-200))
 
         # Asks confirmation from user before exiting/destroying the app
     def exit(self):
@@ -90,19 +98,17 @@ class ExpenseTracker(tk.Tk):
             self.destroy()
 
     def go_to_frame(self, next_frame):
-
         if self.current_frame == "Home":
-                self.Home_frame.place_forget()
-        elif self.current_frame == "chart":
-                self.chart_frame.place_forget()
+            self.home_frame.place_forget()
+        elif self.current_frame == "Chart":
+            self.chart_frame.place_forget()
 
-
-        if next_frame == "chart":
-                self.chart_frame.place()
-                self.current_frame = "chart"
+        if next_frame == "Chart":
+            self.chart_frame.place(x=0, y=0)
+            self.current_frame = "Chart"
         elif next_frame == "Home":
-                self.home_frame.place()
-                self.current_frame = "Home"
+            self.home_frame.place(x=0, y=0)
+            self.current_frame = "Home"
 
 if __name__ == "__main__":
     app = ExpenseTracker()
