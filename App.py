@@ -13,16 +13,9 @@ class ExpenseTracker(tk.Tk):
         self.configure(bg=bg_color)
         
         self.current_frame = "Home"
-        
-        # Frames
-        self.expenses = []
-
-        # Home Frame
-        self.home_frame = tk.Frame(self, background=bg_color, width=w_width, height=(w_height-200))
-        self.home_frame.place(x=0, y=0)
 
         # Expense amount
-        self.expense_amount_label = tk.Label(self, text="Expense amount:", bg=bg_color, fg=bg_color1)
+        self.expense_amount_label = tk.Label(self.home_frame, text="Expense amount:", bg=bg_color, fg=bg_color1)
         self.expense_amount_label.place(x=50, y=50)
         self.expense_amount_entry = tk.Entry(self, width=30)
         self.expense_amount_entry.place(x=200, y=50)
@@ -83,13 +76,13 @@ class ExpenseTracker(tk.Tk):
         # Show Chart button
         self.show_chart_button = tk.Button(self, text="Show Chart", width=20, bg=bg_color1, fg=bg_color, command=lambda: self.go_to_frame("Chart"))
         self.show_chart_button.place(x=500, y=450)
-
+        
         # Exit button
         self.exit_button = tk.Button(self, text="Exit", width=20, bg=bg_color1, fg=bg_color, command=self.exit)
         self.exit_button.place(x=500, y=500)
 
         # Chart Frame
-        self.chart_frame = tk.Frame(self, background=bg_color, width=w_width, height=(w_height-200))
+        self.chart_frame = tk.Frame(self, background=bg_color, width=w_width, height=(w_height-800))
 
         # Asks confirmation from user before exiting/destroying the app
     def exit(self):
