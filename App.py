@@ -97,7 +97,7 @@ class ExpenseTracker(tk.Tk):
         self.chart_label = tk.Label(self.chart_frame, text="ExTra Expense Chart", font=("Helvetica", 25), bg=bg_color)
         self.chart_label.place(x=300, y=50)
         
-        # display)
+        # test display
         self.chart_canvas = tk.Canvas(self.chart_frame, width=400, height=400, bg=bg_color)
         self.chart_canvas.place(x=200, y=150)
 
