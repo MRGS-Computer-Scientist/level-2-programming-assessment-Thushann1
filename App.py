@@ -40,7 +40,7 @@ class ExpenseTracker(tk.Tk):
         self.date_entry.place(x=200, y=150)
         
         # Add Expense button
-        self.add_expense_button = tk.Button(self.home_frame, text="Add Expense", width=20, bg=bg_color1, fg=bg_color)
+        self.add_expense_button = tk.Button(self.home_frame, text="Add Expense", width=20, bg=bg_color1, fg=bg_color, command=self.add_expense)
         self.add_expense_button.place(x=200, y=200)
         
         # List of items
@@ -118,6 +118,36 @@ class ExpenseTracker(tk.Tk):
         elif next_frame == "Home":
             self.home_frame.place(x=0, y=0)
             self.current_frame = "Home"
+
+    def add_expense(self):
+        amount = self.expense_amount_entry.get()
+        description = self.item_description_entry.get()
+        date = self.date_entry.get()
+        if not amount or not description or not date:
+            messagebox.showerror("Error", "All fields must be filled out")
+            return
+        self.expenses.append((amount, description, date))
+        self.transactions_list.insert(tk.END, f"{date} - {description}: ${amount}")
+        self.list_of_items.insert(tk.END, f"{date} - {description}: ${amount}")
+        self.clear_entries()
+
+    def clear_entries(self):
+        self.expense_amount_entry.delete(0, tk.END)
+        self.item_description_entry.delete(0, tk.END)
+        self.date_entry.delete(0, tk.END)
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 if __name__ == "__main__":
     app = ExpenseTracker()
