@@ -69,11 +69,11 @@ class ExpenseTracker(tk.Tk):
         self.monthly_button.place(x=340, y=250)
         
         # Edit Expense button
-        self.edit_expense_button = tk.Button(self.home_frame, text="Edit Expense", width=20, bg=bg_color1, fg=bg_color)
+        self.edit_expense_button = tk.Button(self.home_frame, text="Edit Expense", width=20, bg=bg_color1, fg=bg_color, command=self.edit_expense)
         self.edit_expense_button.place(x=500, y=300)
         
         # Delete Expense button
-        self.delete_expense_button = tk.Button(self.home_frame, text="Delete Expense", width=20, bg=bg_color1, fg=bg_color)
+        self.delete_expense_button = tk.Button(self.home_frame, text="Delete Expense", width=20, bg=bg_color1, fg=bg_color, command=self.delete_expense)
         self.delete_expense_button.place(x=500, y=350)
         
         # Save Expense button
@@ -136,7 +136,28 @@ class ExpenseTracker(tk.Tk):
         self.item_description_entry.delete(0, tk.END)
         self.date_entry.delete(0, tk.END)
 
-
+    def edit_expense(self):
+        selected = self.transactions_list.curselection()
+        selected = self.list_of_items.curselection()
+        if not selected:
+            messagebox.showerror("Error", "No expense selected")
+            return
+        index = selected[0]
+        amount, description, date = self.expenses[index]
+        self.expense_amount_entry.insert(0, amount)
+        self.item_description_entry.insert(0, description)
+        self.date_entry.insert(0, date)
+        self.delete_expense()
+  
+    def delete_expense(self):
+        selected = self.transactions_list.curselection()
+        selected = self.list_of_items.curselection()
+        if not selected:
+            messagebox.showerror("Error", "No expense selected")
+            return
+        index = selected[0]
+        del self.expenses[index]
+        self.transactions_list.delete(index)
 
 
 
