@@ -153,7 +153,8 @@ class ExpenseTracker(tk.Tk):
         index = selected[0]
         del self.expenses[index]
         self.transactions_list.delete(index)
-        
+        self.list_of_items.delete(index)
+
     def save_expense(self):
         selected = self.transactions_list.curselection()
         selected = self.list_of_items.curselection()
@@ -170,6 +171,8 @@ class ExpenseTracker(tk.Tk):
         self.expenses[index] = (amount, description, date)
         self.transactions_list.delete(index)
         self.transactions_list.insert(index, f"{date} - {description}: ${amount}")
+        self.list_of_items.delete(index)
+        self.list_of_items.insert(index, f"{date} - {description}: ${amount}")
         self.clear_entries()
 
 
