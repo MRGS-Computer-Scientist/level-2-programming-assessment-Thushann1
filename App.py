@@ -77,7 +77,7 @@ class ExpenseTracker(tk.Tk):
         self.delete_expense_button.place(x=500, y=350)
         
         # Save Expense button
-        self.save_expense_button = tk.Button(self.home_frame, text="Save Expense", width=20, bg=bg_color1, fg=bg_color)
+        self.save_expense_button = tk.Button(self.home_frame, text="Save Expense", width=20, bg=bg_color1, fg=bg_color, command=self.save_expense)
         self.save_expense_button.place(x=500, y=400)
         
         # Show Chart button
@@ -131,11 +131,6 @@ class ExpenseTracker(tk.Tk):
         self.list_of_items.insert(tk.END, f"{date} - {description}: ${amount}")
         self.clear_entries()
 
-    def clear_entries(self):
-        self.expense_amount_entry.delete(0, tk.END)
-        self.item_description_entry.delete(0, tk.END)
-        self.date_entry.delete(0, tk.END)
-
     def edit_expense(self):
         selected = self.transactions_list.curselection()
         selected = self.list_of_items.curselection()
@@ -158,17 +153,30 @@ class ExpenseTracker(tk.Tk):
         index = selected[0]
         del self.expenses[index]
         self.transactions_list.delete(index)
+        
+    def save_expense(self):
+        selected = self.transactions_list.curselection()
+        selected = self.list_of_items.curselection()
+        if not selected:
+            messagebox.showerror("Error", "No expense selected")
+            return
+        index = selected[0]
+        amount = self.expense_amount_entry.get()
+        description = self.item_description_entry.get()
+        date = self.date_entry.get()
+        if not amount or not description or not date:
+            messagebox.showerror("Error", "All fields must be filled out")
+            return
+        self.expenses[index] = (amount, description, date)
+        self.transactions_list.delete(index)
+        self.transactions_list.insert(index, f"{date} - {description}: ${amount}")
+        self.clear_entries()
 
 
-
-
-
-
-
-
-
-
-
+    def clear_entries(self):
+        self.expense_amount_entry.delete(0, tk.END)
+        self.item_description_entry.delete(0, tk.END)
+        self.date_entry.delete(0, tk.END)
 
 if __name__ == "__main__":
     app = ExpenseTracker()
