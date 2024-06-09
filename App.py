@@ -1,5 +1,6 @@
 import tkinter as tk
 from datetime import datetime
+from tkinter import ttk
 from app_settings import bg_color, bg_color1, w_width, w_height
 from tkinter import messagebox
 
@@ -129,6 +130,9 @@ class ExpenseTracker(tk.Tk):
         if not self.validate_date(date):
              messagebox.showerror("Error", "Date format must be YYYY-MM-DD")
              return
+        if not self.validate_amount(amount):
+            messagebox.showerror("Error", "Amount must be a number")
+            return
         self.expenses.append((amount, description, date))
         self.transactions_list.insert(tk.END, f"{date} - {description}: ${amount}")
         self.list_of_items.insert(tk.END, f"{date} - {description}: ${amount}")
@@ -178,7 +182,20 @@ class ExpenseTracker(tk.Tk):
         self.list_of_items.insert(index, f"{date} - {description}: ${amount}")
         self.clear_entries()
 
+    def validate_date(self, date):
+        try:
+            datetime.strptime(date, "%Y-%m-%d")
+            return True
+        except ValueError:
+            return False
 
+    def validate_amount(self, amount):
+        try:
+            float(amount)
+            return True
+        except ValueError:
+            return False
+        
     def clear_entries(self):
         self.expense_amount_entry.delete(0, tk.END)
         self.item_description_entry.delete(0, tk.END)
