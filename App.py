@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import ttk
+from datetime import datetime
 from app_settings import bg_color, bg_color1, w_width, w_height
 from tkinter import messagebox
 
@@ -40,7 +40,7 @@ class ExpenseTracker(tk.Tk):
         self.date_entry.place(x=200, y=150)
         
         # Add Expense button
-        self.add_expense_button = tk.Button(self.home_frame, text="Add Expense", width=20, bg=bg_color1, fg=bg_color)
+        self.add_expense_button = tk.Button(self.home_frame, text="Add Expense", width=20, bg=bg_color1, fg=bg_color, command=self.add_expense)
         self.add_expense_button.place(x=200, y=200)
         
         # List of items
@@ -69,15 +69,15 @@ class ExpenseTracker(tk.Tk):
         self.monthly_button.place(x=340, y=250)
         
         # Edit Expense button
-        self.edit_expense_button = tk.Button(self.home_frame, text="Edit Expense", width=20, bg=bg_color1, fg=bg_color)
+        self.edit_expense_button = tk.Button(self.home_frame, text="Edit Expense", width=20, bg=bg_color1, fg=bg_color, command=self.edit_expense)
         self.edit_expense_button.place(x=500, y=300)
         
         # Delete Expense button
-        self.delete_expense_button = tk.Button(self.home_frame, text="Delete Expense", width=20, bg=bg_color1, fg=bg_color)
+        self.delete_expense_button = tk.Button(self.home_frame, text="Delete Expense", width=20, bg=bg_color1, fg=bg_color, command=self.delete_expense)
         self.delete_expense_button.place(x=500, y=350)
         
         # Save Expense button
-        self.save_expense_button = tk.Button(self.home_frame, text="Save Expense", width=20, bg=bg_color1, fg=bg_color)
+        self.save_expense_button = tk.Button(self.home_frame, text="Save Expense", width=20, bg=bg_color1, fg=bg_color, command=self.save_expense)
         self.save_expense_button.place(x=500, y=400)
         
         # Show Chart button
@@ -118,6 +118,71 @@ class ExpenseTracker(tk.Tk):
         elif next_frame == "Home":
             self.home_frame.place(x=0, y=0)
             self.current_frame = "Home"
+
+    def add_expense(self):
+        amount = self.expense_amount_entry.get()
+        description = self.item_description_entry.get()
+        date = self.date_entry.get()
+        if not amount or not description or not date:
+            messagebox.showerror("Error", "All fields must be filled out")
+            return
+        if not self.validate_date(date):
+             messagebox.showerror("Error", "Date format must be YYYY-MM-DD")
+             return
+        self.expenses.append((amount, description, date))
+        self.transactions_list.insert(tk.END, f"{date} - {description}: ${amount}")
+        self.list_of_items.insert(tk.END, f"{date} - {description}: ${amount}")
+        self.clear_entries()
+
+    def edit_expense(self):
+        selected = self.transactions_list.curselection()
+        selected = self.list_of_items.curselection()
+        if not selected:
+            messagebox.showerror("Error", "No expense selected")
+            return
+        index = selected[0]
+        amount, description, date = self.expenses[index]
+        self.expense_amount_entry.insert(0, amount)
+        self.item_description_entry.insert(0, description)
+        self.date_entry.insert(0, date)
+        self.delete_expense()
+  
+    def delete_expense(self):
+        selected = self.transactions_list.curselection()
+        selected = self.list_of_items.curselection()
+        if not selected:
+            messagebox.showerror("Error", "No expense selected")
+            return
+        index = selected[0]
+        del self.expenses[index]
+        self.transactions_list.delete(index)
+        self.list_of_items.delete(index)
+
+    def save_expense(self):
+        selected = self.transactions_list.curselection()
+        selected = self.list_of_items.curselection()
+        if not selected:
+            messagebox.showerror("Error", "No expense selected")
+            return
+        index = selected[0]
+        amount = self.expense_amount_entry.get()
+        description = self.item_description_entry.get()
+        date = self.date_entry.get()
+        if not amount or not description or not date:
+            messagebox.showerror("Error", "All fields must be filled out")
+            return
+        self.expenses[index] = (amount, description, date)
+        self.transactions_list.delete(index)
+        self.transactions_list.insert(index, f"{date} - {description}: ${amount}")
+        self.list_of_items.delete(index)
+        self.list_of_items.insert(index, f"{date} - {description}: ${amount}")
+        self.clear_entries()
+
+
+    def clear_entries(self):
+        self.expense_amount_entry.delete(0, tk.END)
+        self.item_description_entry.delete(0, tk.END)
+        self.date_entry.delete(0, tk.END)
 
 if __name__ == "__main__":
     app = ExpenseTracker()
