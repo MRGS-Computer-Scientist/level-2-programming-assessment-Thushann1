@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import ttk
+from datetime import datetime
 from app_settings import bg_color, bg_color1, w_width, w_height
 from tkinter import messagebox
 
@@ -126,6 +126,9 @@ class ExpenseTracker(tk.Tk):
         if not amount or not description or not date:
             messagebox.showerror("Error", "All fields must be filled out")
             return
+        if not self.validate_date(date):
+             messagebox.showerror("Error", "Date format must be YYYY-MM-DD")
+             return
         self.expenses.append((amount, description, date))
         self.transactions_list.insert(tk.END, f"{date} - {description}: ${amount}")
         self.list_of_items.insert(tk.END, f"{date} - {description}: ${amount}")
