@@ -1,8 +1,11 @@
 import tkinter as tk
 from datetime import datetime
 from tkinter import ttk
+from matplotlib.figure import Figure
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from app_settings import bg_color, bg_color1, w_width, w_height
 from tkinter import messagebox
+
 
 class ExpenseTracker(tk.Tk):
 
