@@ -101,9 +101,8 @@ class ExpenseTracker(tk.Tk):
         self.chart_label = tk.Label(self.chart_frame, text="ExTra Expense Chart", font=("Helvetica", 25), bg=bg_color)
         self.chart_label.place(x=300, y=50)
         
-        # test display
-        self.chart_canvas = tk.Canvas(self.chart_frame, width=400, height=400, bg=bg_color)
-        self.chart_canvas.place(x=200, y=150)
+        # Initialize chart_canvas
+        self.chart_canvas = None
 
     def exit(self):
         confirm_exit = messagebox.askquestion("askquestion", "Are you sure?")
@@ -119,6 +118,7 @@ class ExpenseTracker(tk.Tk):
         if next_frame == "Chart":
             self.chart_frame.place(x=0, y=0)
             self.current_frame = "Chart"
+            self.show_pie_chart()
         elif next_frame == "Home":
             self.home_frame.place(x=0, y=0)
             self.current_frame = "Home"
@@ -131,12 +131,12 @@ class ExpenseTracker(tk.Tk):
             messagebox.showerror("Error", "All fields must be filled out")
             return
         if not self.validate_date(date):
-             messagebox.showerror("Error", "Date format must be YYYY-MM-DD")
-             return
+            messagebox.showerror("Error", "Date format must be YYYY-MM-DD")
+            return
         if not self.validate_amount(amount):
             messagebox.showerror("Error", "Amount must be a number")
             return
-        self.expenses.append((amount, description, date))
+        self.expenses.append((float(amount), description, date))
         self.transactions_list.insert(tk.END, f"{date} - {description}: ${amount}")
         self.list_of_items.insert(tk.END, f"{date} - {description}: ${amount}")
         self.clear_entries()
@@ -203,6 +203,21 @@ class ExpenseTracker(tk.Tk):
         self.expense_amount_entry.delete(0, tk.END)
         self.item_description_entry.delete(0, tk.END)
         self.date_entry.delete(0, tk.END)
+
+    def show_pie_chart(self):
+        if self.chart_canvas:
+            self.chart_canvas.get_tk_widget().destroy()
+        
+        labels = [expense[1] for expense in self.expenses]
+        sizes = [expense[0] for expense in self.expenses]
+        
+        fig, ax = plt.subplots()
+        ax.pie(sizes, labels=labels, autopct='%1.1f%%', startangle=90)
+        ax.axis('equal')
+        
+        self.chart_canvas = FigureCanvasTkAgg(fig, master=self.chart_frame)
+        self.chart_canvas.draw()
+        self.chart_canvas.get_tk_widget().place(x=200, y=150)
 
 if __name__ == "__main__":
     app = ExpenseTracker()
