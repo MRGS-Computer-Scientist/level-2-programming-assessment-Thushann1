@@ -104,11 +104,14 @@ class ExpenseTracker(tk.Tk):
         # Initialize chart_canvas
         self.chart_canvas = None
 
+
+    # Exit button
     def exit(self):
         confirm_exit = messagebox.askquestion("askquestion", "Are you sure?")
         if confirm_exit == 'yes':
             self.destroy()
 
+    # Switch Frame (switching to the chart frame)
     def go_to_frame(self, next_frame):
         if self.current_frame == "Home":
             self.home_frame.place_forget()
@@ -123,6 +126,7 @@ class ExpenseTracker(tk.Tk):
             self.home_frame.place(x=0, y=0)
             self.current_frame = "Home"
 
+    # Add expense entry (with error prevention)
     def add_expense(self):
         amount = self.expense_amount_entry.get()
         description = self.item_description_entry.get()
@@ -141,6 +145,8 @@ class ExpenseTracker(tk.Tk):
         self.list_of_items.insert(tk.END, f"{date} - {description}: ${amount}")
         self.clear_entries()
 
+
+    # Edit expense entry (with error prevention)
     def edit_expense(self):
         selected = self.transactions_list.curselection()
         selected = self.list_of_items.curselection()
@@ -153,7 +159,9 @@ class ExpenseTracker(tk.Tk):
         self.item_description_entry.insert(0, description)
         self.date_entry.insert(0, date)
         self.delete_expense()
-  
+
+
+    # Delete expense entry (with error prevention)
     def delete_expense(self):
         selected = self.transactions_list.curselection()
         selected = self.list_of_items.curselection()
@@ -165,6 +173,8 @@ class ExpenseTracker(tk.Tk):
         self.transactions_list.delete(index)
         self.list_of_items.delete(index)
 
+
+    # Save expense entry with (error prevention)
     def save_expense(self):
         selected = self.transactions_list.curselection()
         selected = self.list_of_items.curselection()
@@ -185,13 +195,16 @@ class ExpenseTracker(tk.Tk):
         self.list_of_items.insert(index, f"{date} - {description}: ${amount}")
         self.clear_entries()
 
+
+    # Validating The dates code
     def validate_date(self, date):
         try:
             datetime.strptime(date, "%Y-%m-%d")
             return True
         except ValueError:
             return False
-
+        
+    # validating amount (if its not in numbers error prevention)
     def validate_amount(self, amount):
         try:
             float(amount)
@@ -199,11 +212,15 @@ class ExpenseTracker(tk.Tk):
         except ValueError:
             return False
         
+
+      # clearing entries after Adding the expense input  
     def clear_entries(self):
         self.expense_amount_entry.delete(0, tk.END)
         self.item_description_entry.delete(0, tk.END)
         self.date_entry.delete(0, tk.END)
 
+
+    # pie chart canvas
     def show_pie_chart(self):
         if self.chart_canvas:
             self.chart_canvas.get_tk_widget().destroy()
