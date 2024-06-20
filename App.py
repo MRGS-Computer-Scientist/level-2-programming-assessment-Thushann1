@@ -174,28 +174,6 @@ class ExpenseTracker(tk.Tk):
         self.list_of_items.delete(index)
 
 
-    # Save expense entry with (error prevention)
-    def save_expense(self):
-        selected = self.transactions_list.curselection()
-        selected = self.list_of_items.curselection()
-        if not selected:
-            messagebox.showerror("Error", "No expense selected")
-            return
-        index = selected[0]
-        amount = self.expense_amount_entry.get()
-        description = self.item_description_entry.get()
-        date = self.date_entry.get()
-        if not amount or not description or not date:
-            messagebox.showerror("Error", "All fields must be filled out")
-            return
-        self.expenses[index] = (amount, description, date)
-        self.transactions_list.delete(index)
-        self.transactions_list.insert(index, f"{date} - {description}: ${amount}")
-        self.list_of_items.delete(index)
-        self.list_of_items.insert(index, f"{date} - {description}: ${amount}")
-        self.clear_entries()
-
-
     # Validating The dates code
     def validate_date(self, date):
         try:
