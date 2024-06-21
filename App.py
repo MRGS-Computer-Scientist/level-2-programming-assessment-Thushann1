@@ -59,19 +59,6 @@ class ExpenseTracker(tk.Tk):
         self.transactions_list = tk.Listbox(self.home_frame, width=50, height=10)
         self.transactions_list.place(x=50, y=280)
         
-        # Daily, Weekly, Monthly buttons
-        self.time_frame = tk.StringVar()
-        self.time_frame.set("Daily")
-        
-        self.daily_button = tk.Radiobutton(self.home_frame, text="Daily", variable=self.time_frame, value="Daily", bg=bg_color, fg=bg_color1)
-        self.daily_button.place(x=200, y=250)
-        
-        self.weekly_button = tk.Radiobutton(self.home_frame, text="Weekly", variable=self.time_frame, value="Weekly", bg=bg_color, fg=bg_color1)
-        self.weekly_button.place(x=260, y=250)
-        
-        self.monthly_button = tk.Radiobutton(self.home_frame, text="Monthly", variable=self.time_frame, value="Monthly", bg=bg_color, fg=bg_color1)
-        self.monthly_button.place(x=340, y=250)
-        
         # Edit Expense button
         self.edit_expense_button = tk.Button(self.home_frame, text="Edit Expense", width=20, bg=bg_color1, fg=bg_color, command=self.edit_expense)
         self.edit_expense_button.place(x=500, y=300)
@@ -79,10 +66,6 @@ class ExpenseTracker(tk.Tk):
         # Delete Expense button
         self.delete_expense_button = tk.Button(self.home_frame, text="Delete Expense", width=20, bg=bg_color1, fg=bg_color, command=self.delete_expense)
         self.delete_expense_button.place(x=500, y=350)
-        
-        # Save Expense button
-        self.save_expense_button = tk.Button(self.home_frame, text="Save Expense", width=20, bg=bg_color1, fg=bg_color, command=self.save_expense)
-        self.save_expense_button.place(x=500, y=400)
         
         # Show Chart button
         self.show_chart_button = tk.Button(self.home_frame, text="Show Chart", width=20, bg=bg_color1, fg=bg_color, command=lambda: self.go_to_frame("Chart"))
