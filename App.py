@@ -69,11 +69,11 @@ class ExpenseTracker(tk.Tk):
         
         # Show Chart button
         self.show_chart_button = tk.Button(self.home_frame, text="Show Chart", width=20, bg=bg_color1, fg=bg_color, command=lambda: self.go_to_frame("Chart"))
-        self.show_chart_button.place(x=500, y=450)
+        self.show_chart_button.place(x=500, y=400)
         
         # Exit button
         self.exit_button = tk.Button(self.home_frame, text="Exit", width=20, bg=bg_color1, fg=bg_color, command=self.exit)
-        self.exit_button.place(x=500, y=500)
+        self.exit_button.place(x=500, y=450)
 
         # Chart Frame
         self.chart_frame = tk.Frame(self, background=bg_color, width=w_width, height=w_height)
