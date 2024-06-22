@@ -111,18 +111,28 @@ class ExpenseTracker(tk.Tk):
 
     # Add expense entry (with error prevention)
     def add_expense(self):
-        amount = self.expense_amount_entry.get()
+        amount_str = self.expense_amount_entry.get()
         description = self.item_description_entry.get()
         date = self.date_entry.get()
+        amount = float(amount_str)
+
+        if amount < 0 or amount > 100000:
+            messagebox.showerror("Error", "Expense amount must be between $0 and $100,000")
+            return
+
         if not amount or not description or not date:
             messagebox.showerror("Error", "All fields must be filled out")
             return
+        
         if not self.validate_date(date):
             messagebox.showerror("Error", "Date format must be YYYY-MM-DD")
             return
+        
         if not self.validate_amount(amount):
             messagebox.showerror("Error", "Amount must be a number")
             return
+        
+
         self.expenses.append((float(amount), description, date))
         self.transactions_list.insert(tk.END, f"{date} - {description}: ${amount}")
         self.list_of_items.insert(tk.END, f"{date} - {description}: ${amount}")
