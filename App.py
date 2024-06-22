@@ -1,5 +1,5 @@
 import tkinter as tk
-from datetime import datetime
+from datetime import datetime, date
 from tkinter import ttk
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from app_settings import bg_color, bg_color1, w_width, w_height
@@ -109,12 +109,15 @@ class ExpenseTracker(tk.Tk):
             self.home_frame.place(x=0, y=0)
             self.current_frame = "Home"
 
+
     # Add expense entry (with error prevention)
     def add_expense(self):
         amount_str = self.expense_amount_entry.get()
         description = self.item_description_entry.get()
         date = self.date_entry.get()
+
         amount = float(amount_str)
+
 
         if amount < 0 or amount > 100000:
             messagebox.showerror("Error", "Expense amount must be between $0 and $100,000")
@@ -125,7 +128,7 @@ class ExpenseTracker(tk.Tk):
             return
         
         if not self.validate_date(date):
-            messagebox.showerror("Error", "Date format must be YYYY-MM-DD")
+            messagebox.showerror("Error", "Invaild Date format must be YYYY-MM-DD or Date is in the past")
             return
         
         if not self.validate_amount(amount):
@@ -167,11 +170,15 @@ class ExpenseTracker(tk.Tk):
         self.list_of_items.delete(index)
 
 
-    # Validating The dates code
-    def validate_date(self, date):
+    # Validating The dates (so the date format can only be in YYYY-MM-DD and the dates must be in present and future times)
+    def validate_date(self, date_str):
         try:
-            datetime.strptime(date, "%Y-%m-%d")
-            return True
+            entered_date = datetime.strptime(date_str, "%Y-%m-%d").date()
+            today = date.today()
+            if entered_date >= today:
+                return True
+            else:
+                return False
         except ValueError:
             return False
         
