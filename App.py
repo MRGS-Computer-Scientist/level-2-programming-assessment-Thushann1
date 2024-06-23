@@ -81,7 +81,7 @@ class ExpenseTracker(tk.Tk):
         self.back_button = tk.Button(self.chart_frame, text="Back", width=20, bg=bg_color1, fg=bg_color, command=lambda: self.go_to_frame("Home"))
         self.back_button.place(x=50, y=50)
         
-        self.chart_label = tk.Label(self.chart_frame, text="ExTra Expense Chart", font=("Helvetica", 25), bg=bg_color)
+        self.chart_label = tk.Label(self.chart_frame, text="ExTra Expense Chart", font=("arial", 25), bg=bg_color)
         self.chart_label.place(x=300, y=50)
         
         # Initialize chart_canvas
