@@ -144,27 +144,34 @@ class ExpenseTracker(tk.Tk):
 
     # Edit expense entry (with error prevention)
     def edit_expense(self):
-        selected = self.transactions_list.curselection()
-        selected = self.list_of_items.curselection()
-        if not selected:
+        selected_transaction = self.transactions_list.curselection()
+        selected_transaction = self.list_of_items.curselection()
+        if not selected_transaction:
             messagebox.showerror("Error", "No expense selected")
             return
-        index = selected[0]
+        
+        index = selected_transaction[0]
         amount, description, date = self.expenses[index]
+
+        # Clear entries before inserting new values
+        self.clear_entries()
+
         self.expense_amount_entry.insert(0, amount)
         self.item_description_entry.insert(0, description)
         self.date_entry.insert(0, date)
         self.delete_expense()
 
 
+
     # Delete expense entry (with error prevention)
     def delete_expense(self):
-        selected = self.transactions_list.curselection()
-        selected = self.list_of_items.curselection()
-        if not selected:
-            messagebox.showerror("Error", "No expense selected")
-            return
-        index = selected[0]
+        selected_transaction = self.transactions_list.curselection()
+        selected_transaction = self.list_of_items.curselection()
+        if not selected_transaction:
+           messagebox.showerror("Error", "No expense selected")
+           return
+    
+        index = selected_transaction[0]
         del self.expenses[index]
         self.transactions_list.delete(index)
         self.list_of_items.delete(index)
