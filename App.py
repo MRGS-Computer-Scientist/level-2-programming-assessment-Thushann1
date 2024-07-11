@@ -154,13 +154,14 @@ class ExpenseTracker(tk.Tk):
         if confirm_exit == "yes":
             self.destroy()
 
-    # Switch Frame (switching to the chart frame)
+    # Switch Between Frames (Home and Chart frame)
     def go_to_frame(self, next_frame):
         if self.current_frame == "Home":
             self.home_frame.place_forget()
         elif self.current_frame == "Chart":
             self.chart_frame.place_forget()
 
+        # Show next frame
         if next_frame == "Chart":
             self.chart_frame.place(x=0, y=0)
             self.current_frame = "Chart"
@@ -175,34 +176,44 @@ class ExpenseTracker(tk.Tk):
         description = self.item_description_entry.get()
         date = self.date_entry.get()
 
-        amount = float(amount_str)
-
+      #validate amount entry
+        try:
+            amount = float(amount_str)
+        except ValueError:
+            messagebox.showerror("Error", "Amount must be a number")
+            return
+        
+        # Validate if amount is within vaild range
         if amount < 0 or amount > 100000:
             messagebox.showerror(
                 "Error", "Expense amount must be between $0 and $100,000"
             )
             return
 
+        #ensure all fields are filled out
         if not amount or not description or not date:
             messagebox.showerror("Error", "All fields must be filled out")
             return
-
+        
+        #validate date format
         if not self.validate_date(date):
             messagebox.showerror(
                 "Error", "Invaild Date format must be YYYY-MM-DD or Date is in the past"
             )
             return
 
+        #validate amount
         if not self.validate_amount(amount):
             messagebox.showerror("Error", "Amount must be a number")
             return
-
+        
+        # Adding expense to the lists abd updating the GUI
         self.expenses.append((float(amount), description, date))
         self.transactions_list.insert(tk.END, f"{date} - {description}: ${amount}")
         self.list_of_items.insert(tk.END, f"{date} - {description}: ${amount}")
         self.clear_entries()
 
-    # Edit expense entry (with error prevention)
+    # Edit existing expense entry (with error prevention)
     def edit_expense(self):
         selected_transaction = self.transactions_list.curselection()
         selected_transaction = self.list_of_items.curselection()
@@ -260,7 +271,7 @@ class ExpenseTracker(tk.Tk):
         self.item_description_entry.delete(0, tk.END)
         self.date_entry.delete(0, tk.END)
 
-    # pie chart canvas
+    # Displays a piechart of expenses
     def show_pie_chart(self):
         if self.chart_canvas:
             self.chart_canvas.get_tk_widget().destroy()
