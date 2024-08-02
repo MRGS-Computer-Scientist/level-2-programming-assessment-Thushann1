@@ -1,4 +1,4 @@
-from App import ExpenseTracker
+from app import ExpenseTracker
 
 
 if __name__ == "__main__":
